@@ -1,0 +1,823 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Python Course: Zero to Advanced</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,"Segoe UI",system-ui,sans-serif;font-size:15px;line-height:1.6;background:#fff;color:#1f2328}
+a{color:#3b82d4;text-decoration:none}
+a:hover{text-decoration:underline}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;background:#1e1e2e;border-bottom:2px solid #3b82d4;display:flex;gap:0;overflow-x:auto}
+nav a{color:#a0aec0;font-size:13px;font-weight:600;padding:12px 18px;white-space:nowrap;border-bottom:3px solid transparent;transition:color .2s}
+nav a:hover,nav a.active{color:#fff;border-bottom-color:#f7c948;text-decoration:none}
+nav a.b{color:#4ade80}nav a.i{color:#fbbf24}nav a.a{color:#c084fc}
+
+/* HERO */
+.hero{background:#1e1e2e;color:#fff;padding:52px 24px 44px;text-align:center}
+.hero .badge{display:inline-block;background:#3b82d4;color:#fff;font-size:11px;font-weight:700;letter-spacing:1.5px;padding:4px 14px;border-radius:20px;margin-bottom:16px;text-transform:uppercase}
+.hero h1{font-size:2.4rem;font-weight:800;letter-spacing:-1px;margin-bottom:12px}
+.hero h1 span{color:#f7c948}
+.hero p{color:#a0aec0;max-width:560px;margin:0 auto 28px}
+.stats-bar{display:flex;justify-content:center;gap:40px;flex-wrap:wrap;margin-top:8px}
+.stat .num{font-size:1.6rem;font-weight:800;color:#f7c948}
+.stat .lbl{font-size:12px;color:#718096}
+
+/* CONTAINER */
+.container{max-width:800px;margin:0 auto;padding:0 20px}
+.section-title{font-size:1.1rem;font-weight:700;margin:44px 0 16px;padding-bottom:8px;border-bottom:2px solid #e5e7eb;display:flex;align-items:center;gap:8px}
+.dot{width:10px;height:10px;border-radius:50%;background:#3b82d4;display:inline-block;flex-shrink:0}
+.dot.g{background:#16a34a}.dot.o{background:#d97706}.dot.p{background:#7c5cd8}
+
+/* LEVEL TABS */
+.level-section{margin-bottom:40px}
+.level-header{display:flex;align-items:center;gap:14px;padding:14px 20px;border-radius:10px 10px 0 0;border:1px solid #e5e7eb;border-bottom:none}
+.level-header.beg{background:linear-gradient(90deg,#f0fdf4,#dcfce7);border-color:#86efac}
+.level-header.int{background:linear-gradient(90deg,#fffbeb,#fef9c3);border-color:#fde047}
+.level-header.adv{background:linear-gradient(90deg,#faf5ff,#ede9fe);border-color:#c4b5fd}
+.level-icon{width:44px;height:44px;border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:1.4rem;flex-shrink:0}
+.level-icon.beg{background:#16a34a;color:#fff}
+.level-icon.int{background:#d97706;color:#fff}
+.level-icon.adv{background:#7c5cd8;color:#fff}
+.level-meta h2{font-size:1.05rem;font-weight:700}
+.level-meta p{font-size:13px;color:#57606a}
+.level-badge{margin-left:auto;font-size:12px;font-weight:700;padding:4px 12px;border-radius:12px}
+.level-badge.beg{background:#dcfce7;color:#15803d}
+.level-badge.int{background:#fef9c3;color:#a16207}
+.level-badge.adv{background:#ede9fe;color:#6d28d9}
+
+/* MODULES */
+.modules-wrap{border:1px solid #e5e7eb;border-top:none;border-radius:0 0 10px 10px;overflow:hidden}
+.module{border-top:1px solid #e5e7eb}
+.module:first-child{border-top:none}
+.module-head{display:flex;align-items:center;gap:12px;padding:13px 16px;background:#f7f8fa;cursor:pointer}
+.module-num{min-width:30px;height:30px;border-radius:6px;background:#3b82d4;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0}
+.module-num.g{background:#16a34a}.module-num.o{background:#d97706}.module-num.p{background:#7c5cd8}.module-num.r{background:#dc2626}.module-num.t{background:#0891b2}.module-num.pk{background:#db2777}
+.module-ttl{font-weight:600;font-size:.93rem;flex:1}
+.module-sub{font-size:12px;color:#57606a}
+.duration{font-size:12px;color:#57606a;white-space:nowrap;margin-left:auto;padding-left:8px}
+.module-body{padding:16px 18px;background:#fff}
+
+/* TOPICS */
+.topics-grid{display:grid;grid-template-columns:1fr 1fr;gap:5px 20px;margin-bottom:14px}
+.topic-item{font-size:13.5px;color:#374151;padding-left:16px;position:relative}
+.topic-item::before{content:"▸";position:absolute;left:0;color:#3b82d4;font-size:11px;top:2px}
+
+/* RESOURCE LINKS */
+.resources{margin-top:12px}
+.resources h4{font-size:13px;font-weight:700;color:#374151;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.res-grid{display:flex;flex-wrap:wrap;gap:8px}
+.res-link{display:inline-flex;align-items:center;gap:5px;font-size:12.5px;padding:5px 10px;border-radius:6px;border:1px solid #e5e7eb;background:#f7f8fa;color:#1f2328;text-decoration:none;font-weight:500}
+.res-link:hover{background:#eff6ff;border-color:#93c5fd;color:#1d4ed8;text-decoration:none}
+.res-link .icon{font-size:14px}
+.res-link.doc{border-color:#86efac;background:#f0fdf4;color:#166534}
+.res-link.doc:hover{background:#dcfce7}
+.res-link.vid{border-color:#fca5a5;background:#fff1f2;color:#991b1b}
+.res-link.vid:hover{background:#fee2e2}
+.res-link.ex{border-color:#93c5fd;background:#eff6ff;color:#1d4ed8}
+.res-link.ex:hover{background:#dbeafe}
+.res-link.prac{border-color:#c4b5fd;background:#faf5ff;color:#6d28d9}
+.res-link.prac:hover{background:#ede9fe}
+
+/* CODE */
+.code-block{background:#1e1e2e;border-radius:8px;padding:15px 18px;margin:12px 0 0;overflow-x:auto}
+.code-block pre{font-family:"Consolas","Fira Code",monospace;font-size:13px;line-height:1.7;color:#cdd6f4;white-space:pre}
+.kw{color:#cba6f7}.fn{color:#89b4fa}.str{color:#a6e3a1}.num{color:#fab387}.cm{color:#6c7086}.cls{color:#f9e2af}
+
+/* ROADMAP */
+.roadmap{margin:8px 0}
+.r-step{display:flex;gap:14px}
+.r-line{display:flex;flex-direction:column;align-items:center;width:28px;flex-shrink:0}
+.r-circle{width:28px;height:28px;border-radius:50%;background:#3b82d4;color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center}
+.r-bar{width:2px;flex:1;min-height:20px;background:#e5e7eb;margin:3px 0}
+.r-content{padding:2px 0 18px;flex:1}
+.r-content strong{font-size:14px;display:block;margin-bottom:2px}
+.r-content span{font-size:13px;color:#57606a}
+
+/* PROJECTS */
+.proj-card{border:1px solid #e5e7eb;border-radius:8px;padding:14px 16px;margin-bottom:10px;background:#f7f8fa}
+.proj-card h4{font-size:14px;font-weight:600;margin-bottom:4px}
+.proj-card p{font-size:13px;color:#57606a;margin-bottom:8px}
+.tag{display:inline-block;font-size:11px;padding:2px 8px;border-radius:10px;margin-right:4px;margin-bottom:2px;background:#e5e7eb;color:#374151;font-weight:500}
+.tag.b{background:#dcfce7;color:#166534}.tag.i{background:#fef9c3;color:#a16207}.tag.a{background:#ede9fe;color:#6d28d9}
+
+/* TABLE */
+table{width:100%;border-collapse:collapse;font-size:13.5px;margin-top:4px}
+th{background:#f7f8fa;text-align:left;padding:9px 12px;border:1px solid #e5e7eb;font-weight:600;color:#374151}
+td{padding:9px 12px;border:1px solid #e5e7eb;color:#374151}
+tr:nth-child(even) td{background:#f7f8fa}
+
+/* TIP */
+.tip{background:#eff6ff;border-left:4px solid #3b82d4;border-radius:0 6px 6px 0;padding:11px 15px;margin:10px 0;font-size:13.5px;color:#1e3a5f}
+.tip strong{display:block;margin-bottom:3px;color:#1d4ed8}
+
+.footer{text-align:center;margin:48px auto 0;padding:16px 0 24px;border-top:1px solid #e5e7eb;font-size:12px;color:#57606a;max-width:800px}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav id="top-nav">
+  <a href="#home" class="active">Home</a>
+  <a href="#roadmap">Roadmap</a>
+  <a href="#beginner" class="b">Beginner</a>
+  <a href="#intermediate" class="i">Intermediate</a>
+  <a href="#advanced" class="a">Advanced</a>
+  <a href="#projects">Projects</a>
+  <a href="#tools">Tools</a>
+  <a href="#tips">Tips</a>
+</nav>
+
+<!-- HERO -->
+<div class="hero" id="home">
+  <div class="badge">Complete Python Course</div>
+  <h1>Python: <span>Zero to Advanced</span></h1>
+  <p>A fully structured, resource-rich course with official docs, video links, exercises, and practice problems for every single topic — Beginner → Intermediate → Advanced.</p>
+  <div class="stats-bar">
+    <div class="stat"><div class="num">12</div><div class="lbl">Modules</div></div>
+    <div class="stat"><div class="num">90+</div><div class="lbl">Topics</div></div>
+    <div class="stat"><div class="num">50+</div><div class="lbl">Resource Links</div></div>
+    <div class="stat"><div class="num">18</div><div class="lbl">Projects</div></div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ══════════════════════ ROADMAP ══════════════════════ -->
+<div class="section-title" id="roadmap"><span class="dot"></span> Learning Roadmap</div>
+<div class="roadmap">
+  <div class="r-step">
+    <div class="r-line"><div class="r-circle" style="background:#16a34a">1</div><div class="r-bar"></div></div>
+    <div class="r-content"><strong>Beginner — Foundations (Modules 01–04) · ~4 weeks</strong><span>Python setup, syntax, variables, operators, control flow, functions, and built-in data structures.</span></div>
+  </div>
+  <div class="r-step">
+    <div class="r-line"><div class="r-circle" style="background:#d97706">2</div><div class="r-bar"></div></div>
+    <div class="r-content"><strong>Intermediate — OOP &amp; Ecosystem (Modules 05–08) · ~5 weeks</strong><span>Object-oriented programming, file I/O, exceptions, comprehensions, generators, modules, and the standard library.</span></div>
+  </div>
+  <div class="r-step">
+    <div class="r-line"><div class="r-circle" style="background:#7c5cd8">3</div><div class="r-bar"></div></div>
+    <div class="r-content"><strong>Advanced — Real-World Engineering (Modules 09–12) · ~6 weeks</strong><span>Decorators, async/concurrency, REST APIs, databases, testing, packaging, and ML fundamentals.</span></div>
+  </div>
+</div>
+
+<!-- ══════════════════════ BEGINNER ══════════════════════ -->
+<div class="section-title" id="beginner"><span class="dot g"></span> Beginner Level</div>
+<div class="level-section">
+  <div class="level-header beg">
+    <div class="level-icon beg">🐍</div>
+    <div class="level-meta">
+      <h2>Python Foundations</h2>
+      <p>Modules 01–04 · Estimated 4 weeks · No prior experience needed</p>
+    </div>
+    <span class="level-badge beg">Beginner</span>
+  </div>
+  <div class="modules-wrap">
+
+    <!-- M01 -->
+    <div class="module">
+      <div class="module-head">
+        <div class="module-num g">01</div>
+        <div style="flex:1">
+          <div class="module-ttl">Getting Started with Python</div>
+          <div class="module-sub">Install Python, write your first program, understand basic types</div>
+        </div>
+        <span class="duration">Week 1</span>
+      </div>
+      <div class="module-body">
+        <div class="topics-grid">
+          <div class="topic-item">Installing Python 3 &amp; VS Code</div>
+          <div class="topic-item">Python interpreter &amp; REPL</div>
+          <div class="topic-item">Hello World program</div>
+          <div class="topic-item">Comments &amp; indentation rules</div>
+          <div class="topic-item">print() &amp; input()</div>
+          <div class="topic-item">Variables &amp; naming conventions</div>
+          <div class="topic-item">Data types: int, float, str, bool</div>
+          <div class="topic-item">Type conversion (int(), str()…)</div>
+          <div class="topic-item">f-strings &amp; string formatting</div>
+          <div class="topic-item">Basic arithmetic operators</div>
+        </div>
+        <div class="code-block"><pre><span class="cm"># Your first Python program</span>
+<span class="fn">name</span> = <span class="fn">input</span>(<span class="str">"What is your name? "</span>)
+<span class="fn">age</span>  = <span class="fn">int</span>(<span class="fn">input</span>(<span class="str">"Your age? "</span>))
+<span class="fn">print</span>(<span class="str">f"Hello {name}! In 10 years you'll be {age + 10}."</span>)</pre></div>
+        <div class="resources">
+          <h4>📚 Resources</h4>
+          <div class="res-grid">
+            <a class="res-link doc" href="https://docs.python.org/3/tutorial/introduction.html" target="_blank"><span class="icon">📖</span> Official Tutorial — Intro</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=_uQrJ0TkZlc" target="_blank"><span class="icon">▶</span> Python Full Course – Programming with Mosh</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=rfscVS0vtbw" target="_blank"><span class="icon">▶</span> Python Beginner – freeCodeCamp</a>
+            <a class="res-link ex" href="https://www.w3schools.com/python/default.asp" target="_blank"><span class="icon">🌐</span> W3Schools Python</a>
+            <a class="res-link prac" href="https://www.hackerrank.com/domains/python" target="_blank"><span class="icon">💻</span> HackerRank Python</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M02 -->
+    <div class="module">
+      <div class="module-head">
+        <div class="module-num g">02</div>
+        <div style="flex:1">
+          <div class="module-ttl">Operators &amp; Control Flow</div>
+          <div class="module-sub">Make decisions, create loops, and control program flow</div>
+        </div>
+        <span class="duration">Week 1–2</span>
+      </div>
+      <div class="module-body">
+        <div class="topics-grid">
+          <div class="topic-item">Arithmetic, comparison &amp; assignment</div>
+          <div class="topic-item">Logical operators: and, or, not</div>
+          <div class="topic-item">if / elif / else statements</div>
+          <div class="topic-item">Ternary (conditional) expression</div>
+          <div class="topic-item">for loops &amp; range()</div>
+          <div class="topic-item">while loops</div>
+          <div class="topic-item">break, continue, pass</div>
+          <div class="topic-item">Nested loops</div>
+          <div class="topic-item">match / case (Python 3.10+)</div>
+          <div class="topic-item">Loop else clause</div>
+        </div>
+        <div class="code-block"><pre><span class="cm"># FizzBuzz</span>
+<span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(1, 21):
+    <span class="kw">if</span>   i % 15 == 0: <span class="fn">print</span>(<span class="str">"FizzBuzz"</span>)
+    <span class="kw">elif</span> i %  3 == 0: <span class="fn">print</span>(<span class="str">"Fizz"</span>)
+    <span class="kw">elif</span> i %  5 == 0: <span class="fn">print</span>(<span class="str">"Buzz"</span>)
+    <span class="kw">else</span>:             <span class="fn">print</span>(i)</pre></div>
+        <div class="resources">
+          <h4>📚 Resources</h4>
+          <div class="res-grid">
+            <a class="res-link doc" href="https://docs.python.org/3/tutorial/controlflow.html" target="_blank"><span class="icon">📖</span> Official Docs — Control Flow</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=DZwmZ8Usvnk" target="_blank"><span class="icon">▶</span> Loops &amp; Conditionals – Corey Schafer</a>
+            <a class="res-link ex" href="https://www.w3schools.com/python/python_conditions.asp" target="_blank"><span class="icon">🌐</span> W3Schools — If…Else</a>
+            <a class="res-link prac" href="https://www.codewars.com/kata/search/python?q=loops&beta=false" target="_blank"><span class="icon">💻</span> Codewars — Loop Kata</a>
+            <a class="res-link prac" href="https://realpython.com/python-for-loop/" target="_blank"><span class="icon">📝</span> Real Python — For Loops</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M03 -->
+    <div class="module">
+      <div class="module-head">
+        <div class="module-num g">03</div>
+        <div style="flex:1">
+          <div class="module-ttl">Functions</div>
+          <div class="module-sub">Write reusable, clean, and well-documented functions</div>
+        </div>
+        <span class="duration">Week 2–3</span>
+      </div>
+      <div class="module-body">
+        <div class="topics-grid">
+          <div class="topic-item">Defining &amp; calling functions</div>
+          <div class="topic-item">Parameters &amp; return values</div>
+          <div class="topic-item">Default &amp; keyword arguments</div>
+          <div class="topic-item">*args and **kwargs</div>
+          <div class="topic-item">Variable scope (local / global)</div>
+          <div class="topic-item">Lambda (anonymous) functions</div>
+          <div class="topic-item">Recursion with base case</div>
+          <div class="topic-item">Docstrings &amp; help()</div>
+          <div class="topic-item">Positional-only parameters (/)</div>
+          <div class="topic-item">Function annotations</div>
+        </div>
+        <div class="code-block"><pre><span class="kw">def</span> <span class="fn">greet</span>(name: str, greeting: str = <span class="str">"Hello"</span>) -> str:
+    <span class="str">"""Return a personalised greeting string."""</span>
+    <span class="kw">return</span> <span class="str">f"{greeting}, {name}!"</span>
+
+square = <span class="kw">lambda</span> x: x ** 2
+<span class="fn">print</span>(<span class="fn">square</span>(7))  <span class="cm"># 49</span></pre></div>
+        <div class="resources">
+          <h4>📚 Resources</h4>
+          <div class="res-grid">
+            <a class="res-link doc" href="https://docs.python.org/3/tutorial/controlflow.html#defining-functions" target="_blank"><span class="icon">📖</span> Official Docs — Functions</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=9Os0o3wzS_I" target="_blank"><span class="icon">▶</span> Functions – Corey Schafer</a>
+            <a class="res-link ex" href="https://www.w3schools.com/python/python_functions.asp" target="_blank"><span class="icon">🌐</span> W3Schools — Functions</a>
+            <a class="res-link prac" href="https://realpython.com/defining-your-own-python-function/" target="_blank"><span class="icon">📝</span> Real Python — Define Functions</a>
+            <a class="res-link prac" href="https://www.codewars.com/kata/search/python?q=function&beta=false" target="_blank"><span class="icon">💻</span> Codewars — Function Kata</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M04 -->
+    <div class="module">
+      <div class="module-head">
+        <div class="module-num g">04</div>
+        <div style="flex:1">
+          <div class="module-ttl">Data Structures</div>
+          <div class="module-sub">Lists, tuples, sets, and dictionaries — store and organise data</div>
+        </div>
+        <span class="duration">Week 3–4</span>
+      </div>
+      <div class="module-body">
+        <div class="topics-grid">
+          <div class="topic-item">Lists — create, index, slice</div>
+          <div class="topic-item">List methods: append, pop, sort…</div>
+          <div class="topic-item">Tuples &amp; immutability</div>
+          <div class="topic-item">Sets &amp; set operations</div>
+          <div class="topic-item">Dictionaries (key-value pairs)</div>
+          <div class="topic-item">Dict methods: get, items, keys…</div>
+          <div class="topic-item">Nested data structures</div>
+          <div class="topic-item">Unpacking &amp; spread (*)</div>
+          <div class="topic-item">sorted(), min(), max(), sum()</div>
+          <div class="topic-item">enumerate() &amp; zip()</div>
+        </div>
+        <div class="code-block"><pre>student = {<span class="str">"name"</span>: <span class="str">"Alice"</span>, <span class="str">"grades"</span>: [88, 92, 79]}
+avg = <span class="fn">sum</span>(student[<span class="str">"grades"</span>]) / <span class="fn">len</span>(student[<span class="str">"grades"</span>])
+<span class="fn">print</span>(<span class="str">f"Average: {avg:.1f}"</span>)
+
+<span class="cm"># Unpacking</span>
+first, *rest = [1, 2, 3, 4, 5]</pre></div>
+        <div class="resources">
+          <h4>📚 Resources</h4>
+          <div class="res-grid">
+            <a class="res-link doc" href="https://docs.python.org/3/tutorial/datastructures.html" target="_blank"><span class="icon">📖</span> Official Docs — Data Structures</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=W8KRzm-HUcc" target="_blank"><span class="icon">▶</span> Lists, Tuples, Sets, Dicts – Corey Schafer</a>
+            <a class="res-link ex" href="https://www.w3schools.com/python/python_lists.asp" target="_blank"><span class="icon">🌐</span> W3Schools — Lists</a>
+            <a class="res-link prac" href="https://realpython.com/python-lists-tuples/" target="_blank"><span class="icon">📝</span> Real Python — Lists &amp; Tuples</a>
+            <a class="res-link prac" href="https://leetcode.com/problemset/?difficulty=EASY&topicSlugs=array" target="_blank"><span class="icon">💻</span> LeetCode — Easy Arrays</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /modules-wrap beginner -->
+</div>
+
+<!-- ══════════════════════ INTERMEDIATE ══════════════════════ -->
+<div class="section-title" id="intermediate"><span class="dot o"></span> Intermediate Level</div>
+<div class="level-section">
+  <div class="level-header int">
+    <div class="level-icon int">⚙️</div>
+    <div class="level-meta">
+      <h2>OOP, Standard Library &amp; Patterns</h2>
+      <p>Modules 05–08 · Estimated 5 weeks · Requires Beginner completion</p>
+    </div>
+    <span class="level-badge int">Intermediate</span>
+  </div>
+  <div class="modules-wrap">
+
+    <!-- M05 -->
+    <div class="module">
+      <div class="module-head">
+        <div class="module-num o">05</div>
+        <div style="flex:1">
+          <div class="module-ttl">Object-Oriented Programming (OOP)</div>
+          <div class="module-sub">Classes, inheritance, encapsulation, and polymorphism</div>
+        </div>
+        <span class="duration">Week 5–6</span>
+      </div>
+      <div class="module-body">
+        <div class="topics-grid">
+          <div class="topic-item">Classes &amp; objects</div>
+          <div class="topic-item">__init__ &amp; self</div>
+          <div class="topic-item">Instance vs class attributes</div>
+          <div class="topic-item">Instance, class &amp; static methods</div>
+          <div class="topic-item">Inheritance &amp; super()</div>
+          <div class="topic-item">Method overriding</div>
+          <div class="topic-item">Encapsulation &amp; name mangling</div>
+          <div class="topic-item">Dunder methods (__str__, __repr__…)</div>
+          <div class="topic-item">Abstract base classes (ABC)</div>
+          <div class="topic-item">Polymorphism &amp; duck typing</div>
+        </div>
+        <div class="code-block"><pre><span class="kw">from</span> abc <span class="kw">import</span> ABC, abstractmethod
+
+<span class="kw">class</span> <span class="cls">Animal</span>(ABC):
+    <span class="kw">def</span> <span class="fn">__init__</span>(self, name): self.name = name
+    <span class="kw">@abstractmethod</span>
+    <span class="kw">def</span> <span class="fn">speak</span>(self): ...
+
+<span class="kw">class</span> <span class="cls">Dog</span>(<span class="cls">Animal</span>):
+    <span class="kw">def</span> <span class="fn">speak</span>(self): <span class="kw">return</span> <span class="str">f"{self.name}: Woof!"</span>
+
+<span class="fn">print</span>(<span class="cls">Dog</span>(<span class="str">"Rex"</span>).<span class="fn">speak</span>())</pre></div>
+        <div class="resources">
+          <h4>📚 Resources</h4>
+          <div class="res-grid">
+            <a class="res-link doc" href="https://docs.python.org/3/tutorial/classes.html" target="_blank"><span class="icon">📖</span> Official Docs — Classes</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=ZDa-Z5JzLYM" target="_blank"><span class="icon">▶</span> OOP Python – Corey Schafer (6-part)</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=Ej_02ICOIgs" target="_blank"><span class="icon">▶</span> OOP in 1 Hour – freeCodeCamp</a>
+            <a class="res-link ex" href="https://www.w3schools.com/python/python_classes.asp" target="_blank"><span class="icon">🌐</span> W3Schools — Classes</a>
+            <a class="res-link prac" href="https://realpython.com/python3-object-oriented-programming/" target="_blank"><span class="icon">📝</span> Real Python — OOP Guide</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M06 -->
+    <div class="module">
+      <div class="module-head">
+        <div class="module-num o">06</div>
+        <div style="flex:1">
+          <div class="module-ttl">File I/O &amp; Exception Handling</div>
+          <div class="module-sub">Read/write files and handle errors gracefully</div>
+        </div>
+        <span class="duration">Week 6–7</span>
+      </div>
+      <div class="module-body">
+        <div class="topics-grid">
+          <div class="topic-item">open(), read(), write(), append</div>
+          <div class="topic-item">with statement &amp; context managers</div>
+          <div class="topic-item">Reading / writing CSV files</div>
+          <div class="topic-item">JSON: load, dump, loads, dumps</div>
+          <div class="topic-item">try / except / else / finally</div>
+          <div class="topic-item">Built-in exception types</div>
+          <div class="topic-item">Custom exceptions (class)</div>
+          <div class="topic-item">raise &amp; exception chaining</div>
+          <div class="topic-item">pathlib.Path for file paths</div>
+          <div class="topic-item">os &amp; shutil basics</div>
+        </div>
+        <div class="code-block"><pre><span class="kw">import</span> json
+<span class="kw">from</span> pathlib <span class="kw">import</span> Path
+
+<span class="kw">def</span> <span class="fn">load_config</span>(path: str) -> dict:
+    p = Path(path)
+    <span class="kw">if not</span> p.exists():
+        <span class="kw">raise</span> <span class="cls">FileNotFoundError</span>(<span class="str">f"No config at {p}"</span>)
+    <span class="kw">return</span> json.loads(p.read_text())</pre></div>
+        <div class="resources">
+          <h4>📚 Resources</h4>
+          <div class="res-grid">
+            <a class="res-link doc" href="https://docs.python.org/3/tutorial/inputoutput.html" target="_blank"><span class="icon">📖</span> Official Docs — I/O</a>
+            <a class="res-link doc" href="https://docs.python.org/3/tutorial/errors.html" target="_blank"><span class="icon">📖</span> Official Docs — Exceptions</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=NIWwJbo-9_8" target="_blank"><span class="icon">▶</span> Exception Handling – Corey Schafer</a>
+            <a class="res-link prac" href="https://realpython.com/python-exceptions/" target="_blank"><span class="icon">📝</span> Real Python — Exceptions</a>
+            <a class="res-link ex" href="https://www.w3schools.com/python/python_file_handling.asp" target="_blank"><span class="icon">🌐</span> W3Schools — File Handling</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M07 -->
+    <div class="module">
+      <div class="module-head">
+        <div class="module-num o">07</div>
+        <div style="flex:1">
+          <div class="module-ttl">Comprehensions, Iterators &amp; Generators</div>
+          <div class="module-sub">Write concise, Pythonic, memory-efficient code</div>
+        </div>
+        <span class="duration">Week 7–8</span>
+      </div>
+      <div class="module-body">
+        <div class="topics-grid">
+          <div class="topic-item">List comprehensions</div>
+          <div class="topic-item">Dict &amp; set comprehensions</div>
+          <div class="topic-item">Conditional comprehensions</div>
+          <div class="topic-item">Nested comprehensions</div>
+          <div class="topic-item">Generator expressions</div>
+          <div class="topic-item">yield &amp; generator functions</div>
+          <div class="topic-item">iter() &amp; next()</div>
+          <div class="topic-item">Custom iterator class</div>
+          <div class="topic-item">map(), filter(), reduce()</div>
+          <div class="topic-item">itertools: chain, product, groupby</div>
+        </div>
+        <div class="code-block"><pre><span class="cm"># Memory-efficient generator</span>
+<span class="kw">def</span> <span class="fn">fibonacci</span>(n):
+    a, b = 0, 1
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(n):
+        <span class="kw">yield</span> a
+        a, b = b, a + b
+
+even_fibs = [x <span class="kw">for</span> x <span class="kw">in</span> <span class="fn">fibonacci</span>(30) <span class="kw">if</span> x % 2 == 0]</pre></div>
+        <div class="resources">
+          <h4>📚 Resources</h4>
+          <div class="res-grid">
+            <a class="res-link doc" href="https://docs.python.org/3/howto/functional.html" target="_blank"><span class="icon">📖</span> Official — Functional Programming</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=C3gEtMrs4LY" target="_blank"><span class="icon">▶</span> Generators – Corey Schafer</a>
+            <a class="res-link prac" href="https://realpython.com/list-comprehension-python/" target="_blank"><span class="icon">📝</span> Real Python — Comprehensions</a>
+            <a class="res-link prac" href="https://realpython.com/introduction-to-python-generators/" target="_blank"><span class="icon">📝</span> Real Python — Generators</a>
+            <a class="res-link ex" href="https://docs.python.org/3/library/itertools.html" target="_blank"><span class="icon">🌐</span> itertools Docs</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M08 -->
+    <div class="module">
+      <div class="module-head">
+        <div class="module-num o">08</div>
+        <div style="flex:1">
+          <div class="module-ttl">Modules, Packages &amp; Virtual Environments</div>
+          <div class="module-sub">Structure projects, manage dependencies, standard library</div>
+        </div>
+        <span class="duration">Week 8–9</span>
+      </div>
+      <div class="module-body">
+        <div class="topics-grid">
+          <div class="topic-item">import &amp; from…import</div>
+          <div class="topic-item">__name__ == "__main__"</div>
+          <div class="topic-item">Creating packages (__init__.py)</div>
+          <div class="topic-item">pip &amp; PyPI</div>
+          <div class="topic-item">venv — create &amp; activate</div>
+          <div class="topic-item">requirements.txt</div>
+          <div class="topic-item">datetime &amp; time</div>
+          <div class="topic-item">math &amp; random</div>
+          <div class="topic-item">re — regular expressions</div>
+          <div class="topic-item">collections module</div>
+        </div>
+        <div class="resources">
+          <h4>📚 Resources</h4>
+          <div class="res-grid">
+            <a class="res-link doc" href="https://docs.python.org/3/tutorial/modules.html" target="_blank"><span class="icon">📖</span> Official Docs — Modules</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=GxCXiSkm6no" target="_blank"><span class="icon">▶</span> Modules &amp; Packages – Corey Schafer</a>
+            <a class="res-link prac" href="https://realpython.com/python-virtual-environments-a-primer/" target="_blank"><span class="icon">📝</span> Real Python — Virtual Environments</a>
+            <a class="res-link ex" href="https://docs.python.org/3/library/re.html" target="_blank"><span class="icon">🌐</span> Regex (re) Docs</a>
+            <a class="res-link prac" href="https://regexr.com/" target="_blank"><span class="icon">💻</span> RegExr — Practice Regex</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /modules-wrap intermediate -->
+</div>
+
+<!-- ══════════════════════ ADVANCED ══════════════════════ -->
+<div class="section-title" id="advanced"><span class="dot p"></span> Advanced Level</div>
+<div class="level-section">
+  <div class="level-header adv">
+    <div class="level-icon adv">🚀</div>
+    <div class="level-meta">
+      <h2>Real-World Engineering</h2>
+      <p>Modules 09–12 · Estimated 6 weeks · Requires Intermediate completion</p>
+    </div>
+    <span class="level-badge adv">Advanced</span>
+  </div>
+  <div class="modules-wrap">
+
+    <!-- M09 -->
+    <div class="module">
+      <div class="module-head">
+        <div class="module-num p">09</div>
+        <div style="flex:1">
+          <div class="module-ttl">Advanced Python Features</div>
+          <div class="module-sub">Decorators, type hints, dataclasses, and metaclasses</div>
+        </div>
+        <span class="duration">Week 10–11</span>
+      </div>
+      <div class="module-body">
+        <div class="topics-grid">
+          <div class="topic-item">First-class functions &amp; closures</div>
+          <div class="topic-item">Decorators (@wraps)</div>
+          <div class="topic-item">Stacking &amp; parameterised decorators</div>
+          <div class="topic-item">Context managers (__enter__/__exit__)</div>
+          <div class="topic-item">contextlib.contextmanager</div>
+          <div class="topic-item">dataclasses module</div>
+          <div class="topic-item">Type hints &amp; typing module</div>
+          <div class="topic-item">mypy static type checking</div>
+          <div class="topic-item">__slots__ for memory efficiency</div>
+          <div class="topic-item">Metaclasses basics</div>
+        </div>
+        <div class="code-block"><pre><span class="kw">import</span> functools, time
+
+<span class="kw">def</span> <span class="fn">timer</span>(func):
+    <span class="kw">@</span>functools.wraps(func)
+    <span class="kw">def</span> <span class="fn">wrapper</span>(*args, **kwargs):
+        t0 = time.perf_counter()
+        result = <span class="fn">func</span>(*args, **kwargs)
+        <span class="fn">print</span>(<span class="str">f"{func.__name__} → {time.perf_counter()-t0:.4f}s"</span>)
+        <span class="kw">return</span> result
+    <span class="kw">return</span> wrapper</pre></div>
+        <div class="resources">
+          <h4>📚 Resources</h4>
+          <div class="res-grid">
+            <a class="res-link doc" href="https://docs.python.org/3/library/functools.html" target="_blank"><span class="icon">📖</span> functools Docs</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=FsAPt_9Bf3U" target="_blank"><span class="icon">▶</span> Decorators – Corey Schafer</a>
+            <a class="res-link prac" href="https://realpython.com/primer-on-python-decorators/" target="_blank"><span class="icon">📝</span> Real Python — Decorators</a>
+            <a class="res-link prac" href="https://realpython.com/python-data-classes/" target="_blank"><span class="icon">📝</span> Real Python — dataclasses</a>
+            <a class="res-link ex" href="https://mypy.readthedocs.io/en/stable/getting_started.html" target="_blank"><span class="icon">🌐</span> mypy — Getting Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M10 -->
+    <div class="module">
+      <div class="module-head">
+        <div class="module-num" style="background:#0891b2">10</div>
+        <div style="flex:1">
+          <div class="module-ttl">Async Programming &amp; Concurrency</div>
+          <div class="module-sub">asyncio, threading, multiprocessing, and concurrent.futures</div>
+        </div>
+        <span class="duration">Week 11–12</span>
+      </div>
+      <div class="module-body">
+        <div class="topics-grid">
+          <div class="topic-item">async / await syntax</div>
+          <div class="topic-item">asyncio event loop</div>
+          <div class="topic-item">Coroutines &amp; Tasks</div>
+          <div class="topic-item">asyncio.gather() &amp; wait()</div>
+          <div class="topic-item">Async context managers</div>
+          <div class="topic-item">threading module</div>
+          <div class="topic-item">Thread locks &amp; race conditions</div>
+          <div class="topic-item">multiprocessing module</div>
+          <div class="topic-item">concurrent.futures</div>
+          <div class="topic-item">GIL — understanding limits</div>
+        </div>
+        <div class="code-block"><pre><span class="kw">import</span> asyncio
+
+<span class="kw">async def</span> <span class="fn">fetch</span>(url: str) -> str:
+    <span class="kw">await</span> asyncio.sleep(1)   <span class="cm"># simulate I/O wait</span>
+    <span class="kw">return</span> <span class="str">f"data from {url}"</span>
+
+<span class="kw">async def</span> <span class="fn">main</span>():
+    urls = [<span class="str">"api/users"</span>, <span class="str">"api/posts"</span>, <span class="str">"api/tags"</span>]
+    results = <span class="kw">await</span> asyncio.gather(*[<span class="fn">fetch</span>(u) <span class="kw">for</span> u <span class="kw">in</span> urls])
+    <span class="fn">print</span>(results)</pre></div>
+        <div class="resources">
+          <h4>📚 Resources</h4>
+          <div class="res-grid">
+            <a class="res-link doc" href="https://docs.python.org/3/library/asyncio.html" target="_blank"><span class="icon">📖</span> asyncio Official Docs</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=t5Bo1Je9EmE" target="_blank"><span class="icon">▶</span> AsyncIO – Tech With Tim</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=9zinZmE3Ogk" target="_blank"><span class="icon">▶</span> Concurrency — Real Python Talk</a>
+            <a class="res-link prac" href="https://realpython.com/async-io-python/" target="_blank"><span class="icon">📝</span> Real Python — Async IO</a>
+            <a class="res-link prac" href="https://realpython.com/python-concurrency/" target="_blank"><span class="icon">📝</span> Real Python — Concurrency</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M11 -->
+    <div class="module">
+      <div class="module-head">
+        <div class="module-num r">11</div>
+        <div style="flex:1">
+          <div class="module-ttl">Databases, APIs &amp; Web</div>
+          <div class="module-sub">SQLite, SQLAlchemy, REST APIs with FastAPI, and HTTP clients</div>
+        </div>
+        <span class="duration">Week 13–14</span>
+      </div>
+      <div class="module-body">
+        <div class="topics-grid">
+          <div class="topic-item">SQLite3 — connect, execute, fetch</div>
+          <div class="topic-item">SQLAlchemy 2 ORM basics</div>
+          <div class="topic-item">Alembic migrations</div>
+          <div class="topic-item">httpx — async HTTP client</div>
+          <div class="topic-item">Parsing JSON responses</div>
+          <div class="topic-item">FastAPI — routes &amp; path params</div>
+          <div class="topic-item">Pydantic data validation</div>
+          <div class="topic-item">Dependency injection (FastAPI)</div>
+          <div class="topic-item">JWT authentication</div>
+          <div class="topic-item">Environment variables &amp; .env</div>
+        </div>
+        <div class="code-block"><pre><span class="kw">from</span> fastapi <span class="kw">import</span> FastAPI
+<span class="kw">from</span> pydantic <span class="kw">import</span> BaseModel
+
+app = <span class="fn">FastAPI</span>()
+
+<span class="kw">class</span> <span class="cls">Item</span>(<span class="cls">BaseModel</span>):
+    name: str
+    price: float
+
+<span class="kw">@</span>app.post(<span class="str">"/items"</span>)
+<span class="kw">async def</span> <span class="fn">create_item</span>(item: <span class="cls">Item</span>):
+    <span class="kw">return</span> {<span class="str">"id"</span>: 1, **item.model_dump()}</pre></div>
+        <div class="resources">
+          <h4>📚 Resources</h4>
+          <div class="res-grid">
+            <a class="res-link doc" href="https://fastapi.tiangolo.com/tutorial/" target="_blank"><span class="icon">📖</span> FastAPI Official Tutorial</a>
+            <a class="res-link doc" href="https://docs.sqlalchemy.org/en/20/tutorial/" target="_blank"><span class="icon">📖</span> SQLAlchemy 2 Tutorial</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=0sOvCWFmrtA" target="_blank"><span class="icon">▶</span> FastAPI Full Course – freeCodeCamp</a>
+            <a class="res-link prac" href="https://realpython.com/fastapi-python-web-apis/" target="_blank"><span class="icon">📝</span> Real Python — FastAPI Guide</a>
+            <a class="res-link ex" href="https://www.python-httpx.org/quickstart/" target="_blank"><span class="icon">🌐</span> httpx Quickstart</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- M12 -->
+    <div class="module">
+      <div class="module-head">
+        <div class="module-num" style="background:#db2777">12</div>
+        <div style="flex:1">
+          <div class="module-ttl">Testing, Packaging &amp; Data Science Intro</div>
+          <div class="module-sub">pytest, pyproject.toml, NumPy, pandas, and scikit-learn</div>
+        </div>
+        <span class="duration">Week 14–16</span>
+      </div>
+      <div class="module-body">
+        <div class="topics-grid">
+          <div class="topic-item">pytest basics &amp; assertions</div>
+          <div class="topic-item">Fixtures &amp; conftest.py</div>
+          <div class="topic-item">Parametrize &amp; marks</div>
+          <div class="topic-item">unittest.mock &amp; MagicMock</div>
+          <div class="topic-item">Code coverage (pytest-cov)</div>
+          <div class="topic-item">pyproject.toml setup</div>
+          <div class="topic-item">Publishing to PyPI (twine)</div>
+          <div class="topic-item">NumPy arrays &amp; broadcasting</div>
+          <div class="topic-item">pandas DataFrames &amp; groupby</div>
+          <div class="topic-item">scikit-learn — train &amp; evaluate</div>
+        </div>
+        <div class="code-block"><pre><span class="kw">import</span> pytest
+
+<span class="kw">def</span> <span class="fn">add</span>(a, b): <span class="kw">return</span> a + b
+
+<span class="kw">@</span>pytest.mark.parametrize(<span class="str">"a,b,expected"</span>, [
+    (1, 2, 3), (0, 0, 0), (-1, 1, 0)
+])
+<span class="kw">def</span> <span class="fn">test_add</span>(a, b, expected):
+    <span class="kw">assert</span> <span class="fn">add</span>(a, b) == expected</pre></div>
+        <div class="resources">
+          <h4>📚 Resources</h4>
+          <div class="res-grid">
+            <a class="res-link doc" href="https://docs.pytest.org/en/stable/getting-started.html" target="_blank"><span class="icon">📖</span> pytest Docs</a>
+            <a class="res-link doc" href="https://numpy.org/doc/stable/user/quickstart.html" target="_blank"><span class="icon">📖</span> NumPy Quickstart</a>
+            <a class="res-link vid" href="https://www.youtube.com/watch?v=byaxg00Gf9I" target="_blank"><span class="icon">▶</span> pytest – Arjan Codes</a>
+            <a class="res-link prac" href="https://realpython.com/pytest-python-testing/" target="_blank"><span class="icon">📝</span> Real Python — pytest Guide</a>
+            <a class="res-link ex" href="https://scikit-learn.org/stable/getting_started.html" target="_blank"><span class="icon">🌐</span> scikit-learn Getting Started</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /modules-wrap advanced -->
+</div>
+
+<!-- ══════════════════════ PROJECTS ══════════════════════ -->
+<div class="section-title" id="projects"><span class="dot g"></span> Practice Projects</div>
+
+<div class="proj-card">
+  <h4>01 — Number Guessing Game</h4>
+  <p>Use loops, conditionals, and random to build a classic number-guessing CLI game with score tracking.</p>
+  <span class="tag b">Beginner</span><span class="tag">Loops</span><span class="tag">Functions</span>
+  <div style="margin-top:8px"><a class="res-link ex" href="https://realpython.com/python-quiz-application/" target="_blank"><span class="icon">📝</span> Guide on Real Python</a></div>
+</div>
+<div class="proj-card">
+  <h4>02 — To-Do List CLI App</h4>
+  <p>Create, read, update and delete tasks stored in a JSON file. Includes search and filter features.</p>
+  <span class="tag b">Beginner</span><span class="tag">File I/O</span><span class="tag">JSON</span>
+</div>
+<div class="proj-card">
+  <h4>03 — Secure Password Generator</h4>
+  <p>Generate strong random passwords using the <code>secrets</code> module with configurable length and character sets.</p>
+  <span class="tag i">Intermediate</span><span class="tag">OOP</span><span class="tag">secrets</span>
+  <div style="margin-top:8px"><a class="res-link ex" href="https://realpython.com/python-generate-random-data/" target="_blank"><span class="icon">📝</span> Real Python — Random Data</a></div>
+</div>
+<div class="proj-card">
+  <h4>04 — Student Grade Manager</h4>
+  <p>OOP-based system to manage students, courses, and grades. Includes statistics (mean, median, GPA).</p>
+  <span class="tag i">Intermediate</span><span class="tag">OOP</span><span class="tag">File I/O</span>
+</div>
+<div class="proj-card">
+  <h4>05 — Web Scraper &amp; CSV Export</h4>
+  <p>Scrape structured data from a public site using httpx + BeautifulSoup, then save results to CSV.</p>
+  <span class="tag i">Intermediate</span><span class="tag">httpx</span><span class="tag">CSV</span>
+  <div style="margin-top:8px"><a class="res-link ex" href="https://realpython.com/beautiful-soup-web-scraper-python/" target="_blank"><span class="icon">📝</span> Real Python — BeautifulSoup</a></div>
+</div>
+<div class="proj-card">
+  <h4>06 — File Organiser Automation</h4>
+  <p>Automatically sort files in a directory into subfolders by extension using os, shutil, and pathlib.</p>
+  <span class="tag i">Intermediate</span><span class="tag">pathlib</span><span class="tag">shutil</span>
+</div>
+<div class="proj-card">
+  <h4>07 — REST API — Task Manager</h4>
+  <p>Full CRUD API with FastAPI, SQLite (via SQLAlchemy), Pydantic validation, and JWT authentication.</p>
+  <span class="tag a">Advanced</span><span class="tag">FastAPI</span><span class="tag">SQLite</span><span class="tag">JWT</span>
+  <div style="margin-top:8px"><a class="res-link ex" href="https://fastapi.tiangolo.com/tutorial/sql-databases/" target="_blank"><span class="icon">📝</span> FastAPI + SQL Databases</a></div>
+</div>
+<div class="proj-card">
+  <h4>08 — Async Weather Dashboard</h4>
+  <p>Fetch weather data for multiple cities concurrently using asyncio + httpx and display a formatted report.</p>
+  <span class="tag a">Advanced</span><span class="tag">asyncio</span><span class="tag">httpx</span>
+</div>
+<div class="proj-card">
+  <h4>09 — Data Analysis Dashboard</h4>
+  <p>Load a CSV dataset with pandas, compute statistics, detect outliers, and visualise with matplotlib.</p>
+  <span class="tag a">Advanced</span><span class="tag">pandas</span><span class="tag">matplotlib</span>
+  <div style="margin-top:8px"><a class="res-link ex" href="https://realpython.com/pandas-dataframe/" target="_blank"><span class="icon">📝</span> Real Python — pandas</a></div>
+</div>
+
+<!-- ══════════════════════ TOOLS ══════════════════════ -->
+<div class="section-title" id="tools"><span class="dot"></span> Recommended Tools &amp; Libraries</div>
+<table>
+  <thead><tr><th>Category</th><th>Tool / Library</th><th>Purpose</th><th>Link</th></tr></thead>
+  <tbody>
+    <tr><td>IDE</td><td>VS Code + Pylance</td><td>Editing, linting, IntelliSense</td><td><a href="https://code.visualstudio.com/" target="_blank">Download</a></td></tr>
+    <tr><td>Formatting</td><td>black</td><td>Auto-format Python code</td><td><a href="https://black.readthedocs.io/" target="_blank">Docs</a></td></tr>
+    <tr><td>Linting</td><td>ruff</td><td>Ultra-fast linter</td><td><a href="https://docs.astral.sh/ruff/" target="_blank">Docs</a></td></tr>
+    <tr><td>Type Checking</td><td>mypy</td><td>Static type analysis</td><td><a href="https://mypy.readthedocs.io/" target="_blank">Docs</a></td></tr>
+    <tr><td>Testing</td><td>pytest</td><td>Unit &amp; integration tests</td><td><a href="https://docs.pytest.org/" target="_blank">Docs</a></td></tr>
+    <tr><td>HTTP Client</td><td>httpx</td><td>Async HTTP requests</td><td><a href="https://www.python-httpx.org/" target="_blank">Docs</a></td></tr>
+    <tr><td>Web Framework</td><td>FastAPI</td><td>Modern async REST APIs</td><td><a href="https://fastapi.tiangolo.com/" target="_blank">Docs</a></td></tr>
+    <tr><td>ORM</td><td>SQLAlchemy 2</td><td>Database abstraction layer</td><td><a href="https://docs.sqlalchemy.org/en/20/" target="_blank">Docs</a></td></tr>
+    <tr><td>Data Science</td><td>pandas + NumPy</td><td>Data manipulation &amp; math</td><td><a href="https://pandas.pydata.org/docs/" target="_blank">Docs</a></td></tr>
+    <tr><td>ML</td><td>scikit-learn</td><td>Classical machine learning</td><td><a href="https://scikit-learn.org/stable/user_guide.html" target="_blank">Docs</a></td></tr>
+    <tr><td>Notebooks</td><td>Jupyter Lab</td><td>Interactive data exploration</td><td><a href="https://jupyterlab.readthedocs.io/" target="_blank">Docs</a></td></tr>
+    <tr><td>Env Manager</td><td>uv</td><td>Blazing-fast env &amp; packages</td><td><a href="https://docs.astral.sh/uv/" target="_blank">Docs</a></td></tr>
+  </tbody>
+</table>
+
+<!-- ══════════════════════ TIPS ══════════════════════ -->
+<div class="section-title" id="tips"><span class="dot"></span> Learning Tips</div>
+<div class="tip"><strong>Code every single day</strong>Even 20–30 minutes of daily practice beats weekend 4-hour sessions. Consistency is the #1 predictor of progress.</div>
+<div class="tip"><strong>Read error messages top-to-bottom</strong>Python's tracebacks are your best friend. The most useful clue is almost always the last line.</div>
+<div class="tip"><strong>Build projects, not just exercises</strong>Apply each module to a small project you care about. Real-world context cements learning far better than drills.</div>
+<div class="tip"><strong>Use the REPL &amp; Jupyter for experiments</strong>Before writing a complex function, prototype in the interactive shell or a Jupyter notebook cell.</div>
+<div class="tip"><strong>Read other people's code</strong>Browse GitHub repos of popular Python projects. Reading good code teaches style, patterns, and idioms faster than any tutorial.</div>
+
+</div><!-- /container -->
+
+<div class="footer">Made with IBM Bob</div>
+
+</body>
+</html>
